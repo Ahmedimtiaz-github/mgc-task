@@ -55,8 +55,8 @@ key/tier ("no longer available to new users") and the error itself named
 
 ## Part 1 — why full-document context instead of a vector DB
 
-The corpus is three short markdown files (a few KB total) — small enough to pass in
-full on every query, which is simpler to reason about and easier to explain on a call
+The corpus is three short markdown files (a few pages total) — small enough to pass in
+full on every query, which is simpler to reason about and easier 
 than a chunking/embedding/retrieval pipeline that buys nothing at this size.
 
 ## Part 3 — data-cleaning decisions & metric
