@@ -16,7 +16,7 @@
             <h2>1. Ask the document assistant</h2>
             <form action="/ask" method="post">
                 <div class="ask-row">
-                    <input type="text" name="question" placeholder="e.g. What's the transfer fee?" required>
+                    <input type="text" name="question" value="{{ qa_question or '' }}" placeholder="e.g. What's the transfer fee?" required>
                     <button type="submit">Ask</button>
                 </div>
             </form>
@@ -37,67 +37,68 @@
         <section class="card">
             <h2>2. Score a lead</h2>
             <form action="/score" method="post">
+                {% set f = lead_form or {} %}
                 <div class="field-grid">
                     <div>
                         <label>Source</label>
-                        <input type="text" name="source" value="Referral">
+                        <input type="text" name="source" value="{{ f.source if f.source is defined else 'Referral' }}">
                     </div>
                     <div>
                         <label>City</label>
-                        <input type="text" name="city" value="Islamabad">
+                        <input type="text" name="city" value="{{ f.city if f.city is defined else 'Islamabad' }}">
                     </div>
                     <div>
                         <label>Area</label>
-                        <input type="text" name="area" value="Bahria Town">
+                        <input type="text" name="area" value="{{ f.area if f.area is defined else 'Bahria Town' }}">
                     </div>
                     <div>
                         <label>Property type</label>
-                        <input type="text" name="property_type" value="Apartment">
+                        <input type="text" name="property_type" value="{{ f.property_type if f.property_type is defined else 'Apartment' }}">
                     </div>
                     <div>
                         <label>Budget (PKR lac)</label>
-                        <input type="number" step="any" name="budget_pkr_lac" value="250">
+                        <input type="number" step="any" name="budget_pkr_lac" value="{{ f.budget_pkr_lac if f.budget_pkr_lac is defined and f.budget_pkr_lac is not none else 250 }}">
                     </div>
                     <div>
                         <label>Bedrooms</label>
-                        <input type="number" name="bedrooms" value="2">
+                        <input type="number" name="bedrooms" value="{{ f.bedrooms if f.bedrooms is defined and f.bedrooms is not none else 2 }}">
                     </div>
                     <div>
                         <label>First response (minutes)</label>
-                        <input type="number" step="any" name="first_response_minutes" value="5">
+                        <input type="number" step="any" name="first_response_minutes" value="{{ f.first_response_minutes if f.first_response_minutes is defined and f.first_response_minutes is not none else 5 }}">
                     </div>
                     <div>
                         <label>Calls made</label>
-                        <input type="number" name="calls_made" value="3">
+                        <input type="number" name="calls_made" value="{{ f.calls_made if f.calls_made is defined else 3 }}">
                     </div>
                     <div>
                         <label>Total call seconds</label>
-                        <input type="number" name="total_call_seconds" value="400">
+                        <input type="number" name="total_call_seconds" value="{{ f.total_call_seconds if f.total_call_seconds is defined else 400 }}">
                     </div>
                     <div>
                         <label>WhatsApp replies</label>
-                        <input type="number" name="whatsapp_replies" value="2">
+                        <input type="number" name="whatsapp_replies" value="{{ f.whatsapp_replies if f.whatsapp_replies is defined else 2 }}">
                     </div>
                     <div>
                         <label>Site visits</label>
-                        <input type="number" name="site_visits" value="1">
+                        <input type="number" name="site_visits" value="{{ f.site_visits if f.site_visits is defined else 1 }}">
                     </div>
                     <div>
                         <label>Agent experience (years)</label>
-                        <input type="number" step="any" name="agent_experience_years" value="5">
+                        <input type="number" step="any" name="agent_experience_years" value="{{ f.agent_experience_years if f.agent_experience_years is defined and f.agent_experience_years is not none else 5 }}">
                     </div>
                 </div>
 
                 <div class="checkbox-row">
-                    <input type="checkbox" name="is_overseas" id="is_overseas">
+                    <input type="checkbox" name="is_overseas" id="is_overseas" {% if f.is_overseas %}checked{% endif %}>
                     <label for="is_overseas">Overseas buyer</label>
                 </div>
                 <div class="checkbox-row">
-                    <input type="checkbox" name="referred_by_existing_client" id="referred" checked>
+                    <input type="checkbox" name="referred_by_existing_client" id="referred" {% if f.referred_by_existing_client is defined %}{% if f.referred_by_existing_client %}checked{% endif %}{% else %}checked{% endif %}>
                     <label for="referred">Referred by existing client</label>
                 </div>
                 <div class="checkbox-row">
-                    <input type="checkbox" name="has_financing_approved" id="financing" checked>
+                    <input type="checkbox" name="has_financing_approved" id="financing" {% if f.has_financing_approved is defined %}{% if f.has_financing_approved %}checked{% endif %}{% else %}checked{% endif %}>
                     <label for="financing">Financing approved</label>
                 </div>
 
