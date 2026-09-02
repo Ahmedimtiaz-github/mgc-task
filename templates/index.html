@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>MGC Developments — Sales Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="site-header">
+        <h1>MGC Developments</h1>
+        <p>Internal Sales Assistant</p>
+    </header>
+
+    <main>
+        <section class="card">
+            <h2>1. Ask the document assistant</h2>
+            <form action="/ask" method="post">
+                <div class="ask-row">
+                    <input type="text" name="question" placeholder="e.g. What's the transfer fee?" required>
+                    <button type="submit">Ask</button>
+                </div>
+            </form>
+
+            {% if qa_error %}
+                <div class="error">{{ qa_error }}</div>
+            {% endif %}
+
+            {% if qa_result %}
+                <div class="result">
+                    <h3>Answer</h3>
+                    <p>{{ qa_result.answer }}</p>
+                    <div class="sources"><strong>Sources:</strong> {{ qa_result.sources | join(', ') }}</div>
+                </div>
+            {% endif %}
+        </section>
+
+        <section class="card">
+            <h2>2. Score a lead</h2>
+            <form action="/score" method="post">
+                <div class="field-grid">
+                    <div>
+                        <label>Source</label>
+                        <input type="text" name="source" value="Referral">
+                    </div>
+                    <div>
+                        <label>City</label>
+                        <input type="text" name="city" value="Islamabad">
+                    </div>
+                    <div>
+                        <label>Area</label>
+                        <input type="text" name="area" value="Bahria Town">
+                    </div>
+                    <div>
+                        <label>Property type</label>
+                        <input type="text" name="property_type" value="Apartment">
+                    </div>
+                    <div>
+                        <label>Budget (PKR lac)</label>
+                        <input type="number" step="any" name="budget_pkr_lac" value="250">
+                    </div>
+                    <div>
+                        <label>Bedrooms</label>
+                        <input type="number" name="bedrooms" value="2">
+                    </div>
+                    <div>
+                        <label>First response (minutes)</label>
+                        <input type="number" step="any" name="first_response_minutes" value="5">
+                    </div>
+                    <div>
+                        <label>Calls made</label>
+                        <input type="number" name="calls_made" value="3">
+                    </div>
+                    <div>
+                        <label>Total call seconds</label>
+                        <input type="number" name="total_call_seconds" value="400">
+                    </div>
+                    <div>
+                        <label>WhatsApp replies</label>
+                        <input type="number" name="whatsapp_replies" value="2">
+                    </div>
+                    <div>
+                        <label>Site visits</label>
+                        <input type="number" name="site_visits" value="1">
+                    </div>
+                    <div>
+                        <label>Agent experience (years)</label>
+                        <input type="number" step="any" name="agent_experience_years" value="5">
+                    </div>
+                </div>
+
+                <div class="checkbox-row">
+                    <input type="checkbox" name="is_overseas" id="is_overseas">
+                    <label for="is_overseas">Overseas buyer</label>
+                </div>
+                <div class="checkbox-row">
+                    <input type="checkbox" name="referred_by_existing_client" id="referred" checked>
+                    <label for="referred">Referred by existing client</label>
+                </div>
+                <div class="checkbox-row">
+                    <input type="checkbox" name="has_financing_approved" id="financing" checked>
+                    <label for="financing">Financing approved</label>
+                </div>
+
+                <button type="submit">Score lead</button>
+            </form>
+
+            {% if score_error %}
+                <div class="error">{{ score_error }}</div>
+            {% endif %}
+
+            {% if score_result is not none %}
+                <div class="result">
+                    <h3>Predicted probability of conversion</h3>
+                    <div class="score-value">{{ "%.2f%%" | format(score_result * 100) }}</div>
+                </div>
+            {% endif %}
+        </section>
+    </main>
+</body>
+</html>
