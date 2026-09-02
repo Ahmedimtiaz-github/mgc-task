@@ -106,17 +106,3 @@ different `lead_id`s (one suffixed `-B`) — the same lead re-entered by a secon
 stopped this at write time) and uses `lead_id` only as a non-unique CRM audit-trail
 column. `queries.sql` has the two required queries with comments.
 
-## Left unfinished / rough, and what I'd do next
-
-- No CSS — intentionally bare per the brief.
-- `part1_doc_assistant.py` does a single non-streaming Gemini call per question; no
-  retry/backoff on transient API errors. With more time I'd add a retry and a small
-  response cache for repeated questions.
-- The RandomForest baseline has no hyperparameter tuning (per the brief). With more
-  time I'd try calibrating probabilities (`CalibratedClassifierCV`) since raw forest
-  probabilities aren't always well-calibrated, and add a `created_at`-derived
-  day-of-week/season feature.
-- No automated tests — verified manually by running each script standalone (see
-  actual output above and in the terminal history) plus exercising the web form.
-- Flask app has no input validation beyond basic type coercion in `app.py`; fine for
-  an internal tool, not hardened for untrusted input.
