@@ -106,3 +106,22 @@ different `lead_id`s (one suffixed `-B`) — the same lead re-entered by a secon
 stopped this at write time) and uses `lead_id` only as a non-unique CRM audit-trail
 column. `queries.sql` has the two required queries with comments.
 
+## What's rough, and what I'd do with more time
+
+- **No retry/backoff on the Gemini call in Part 1** — a transient network error or rate
+  limit fails that single request. With more time I'd add exponential backoff and a
+  small response cache for repeated questions.
+- **No hyperparameter tuning on the Part 3 baseline** (per the brief's "no tuning
+  needed"). I'd next try calibrating probabilities (`CalibratedClassifierCV`, since raw
+  RandomForest probabilities aren't perfectly calibrated) and add a
+  `created_at`-derived day-of-week/season feature.
+- **No automated test suite** — verified by running each script standalone against
+  real data and the real API, and exercising the web UI directly, rather than by
+  regression tests. I'd add unit tests for `normalize_city`, `score_lead`, and the
+  JSON-parsing fallback in Part 1 next.
+- **Flask app does basic type coercion, not full input validation** — fine for an
+  internal sales tool, not hardened for untrusted input.
+- **Styling is a light pass, not a design system** — a navy/gold theme inspired by
+  MGC's own branding, added after the initial bare-HTML delivery; no responsive layout
+  or component library.
+
