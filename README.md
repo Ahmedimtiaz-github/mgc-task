@@ -18,8 +18,7 @@ Edit `.env` and set your key:
 GEMINI_API_KEY=your_actual_key_here
 ```
 
-Get a free key (no credit card) at https://aistudio.google.com/apikey — don't enable
-billing on that Google Cloud project, or the free tier disappears.
+Get a free key (no credit card) at https://aistudio.google.com/apikey.
 
 `model.pkl` (the fitted preprocessing + model pipeline) is committed to the repo, so
 `app.py` works out of the box straight after `pip install` — no training step required.
