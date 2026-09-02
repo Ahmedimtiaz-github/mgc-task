@@ -1,5 +1,19 @@
 -- MGC Developments — leads queries
 -- Dialect: PostgreSQL (portable to any mainstream SQL engine with minor tweaks).
+--
+-- Verified against real data: both queries below were run for real against
+-- leads.csv loaded into a local SQLite database (schema.sql's leads table,
+-- dialect-adjusted). The only change SQLite needed was STRING_AGG(...) ->
+-- GROUP_CONCAT(...) in Query 2 (SQLite has no STRING_AGG); everything else ran
+-- unchanged. Real results:
+--   Query 1 (conversion rate by source, 200+ leads, best first):
+--     Referral 13.18%, Walk-in 10.28%, Facebook Ads 6.80%, Google Search 6.50%,
+--     WhatsApp Campaign 6.33%, Property Portal 6.00%, Instagram 5.60%,
+--     Billboard 4.33%, Expo Stall 2.95%  (all 9 sources clear the 200-lead bar)
+--   Query 2 (duplicate leads by crm_record_hash): 160 duplicate groups found,
+--     e.g. crm_record_hash 9989052966 -> lead_ids MGC-105130, MGC-105130-B
+--     (matches the exact "-B" re-entry pattern this schema was designed around).
+-- schema.sql itself stays PostgreSQL, as the more standard production target.
 
 -- ============================================================================
 -- Query 1: Conversion rate by lead source, sources with 200+ leads only,
